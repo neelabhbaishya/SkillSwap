@@ -12,522 +12,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        :root {
-            --bg: #000000;
-            --fg: #ffffff;
-            --accent: #3b82f6;
-            --pill-bg: #ffffff;
-            --pill-fg: #000000;
-            --card-bg: #0A0A0A;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --muted-text: #888888;
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --icon-bg: #27272a;
-            --input-bg: #1a1a1a;
-        }
-
-        html.light-theme {
-            --bg: #f4f4f5;
-            --fg: #18181b;
-            --accent: #2563eb;
-            --pill-bg: #18181b;
-            --pill-fg: #ffffff;
-            --card-bg: #ffffff;
-            --border-color: rgba(0, 0, 0, 0.1);
-            --muted-text: #52525b;
-            --icon-bg: #e4e4e7;
-            --input-bg: #fdfdfd;
-        }
-
-        /* --- BASE & LAYOUT --- */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--fg);
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1152px;
-            margin: 0 auto;
-            padding: 1rem 1.5rem;
-            /* Reduced top padding */
-        }
-
-        main {
-            min-height: 70vh;
-        }
-
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-            animation: slideUpFadeIn 0.5s ease;
-        }
-
-        @keyframes slideUpFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* --- DISCIPLINED TYPOGRAPHY --- */
-        h1,
-        h2,
-        h3,
-        h4,
-        p {
-            margin: 0;
-            padding: 0;
-        }
-
-        .page-title-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .page-title {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 5vw, 3.25rem);
-            font-weight: 700;
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.5rem, 4vw, 2.25rem);
-            font-weight: 700;
-            margin-top: 0.5rem;
-        }
-
-        .dialog-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .card-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
-
-        .display-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .label-text {
-            display: block;
-            font-size: 0.875rem;
-            color: var(--muted-text);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        /* --- HEADER & PERFECTED NAVIGATION (SMALLER) --- */
-        header {
-            margin-bottom: 2rem;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        #main-nav-list {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            list-style: none;
-            margin: 0;
-            padding: 0.25rem;
-            border: 1px solid var(--border-color);
-            border-radius: 9999px;
-        }
-
-        #nav-pill {
-            position: absolute;
-            top: 0.25rem;
-            left: 0;
-            height: calc(100% - 0.5rem);
-            background-color: var(--pill-bg);
-            border-radius: 9999px;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease-out;
-            z-index: 1;
-            opacity: 1;
-        }
-
-        .nav-link {
-            position: relative;
-            cursor: pointer;
-            display: block;
-            padding: 0.4rem 1.1rem;
-            /* Smaller padding */
-            z-index: 2;
-            color: var(--fg);
-            font-weight: 500;
-            font-size: 0.9rem;
-            /* Smaller font */
-            text-decoration: none;
-            border-radius: 9999px;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 4px;
-        }
-
-        .nav-link.active {
-            color: var(--pill-fg);
-            font-weight: 600;
-        }
-
-        /* --- BUTTONS & CONTROLS --- */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.75rem;
-            border: 1px solid var(--border-color);
-            background-color: transparent;
-            color: var(--fg);
-            cursor: pointer;
-            font-weight: 500;
-            border-radius: 9999px;
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            background-color: var(--fg);
-            color: var(--bg);
-            transform: scale(1.03);
-        }
-
-        .btn-primary {
-            background-color: var(--fg);
-            color: var(--bg);
-        }
-
-        .btn-primary:hover {
-            background-color: transparent;
-            color: var(--fg);
-        }
-
-        .circular-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            /* Smaller */
-            border: 1px solid var(--border-color);
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background-color: transparent;
-            color: var(--fg);
-        }
-
-        .circular-btn i {
-            font-size: 1rem;
-        }
-
-        /* Font Awesome icon sizing */
-        .circular-btn:hover {
-            background-color: var(--fg);
-            color: var(--bg);
-        }
-
-        .icon-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 3.5rem;
-            height: 3.5rem;
-            border: none;
-            border-radius: 9999px;
-            background-color: var(--icon-bg);
-            color: var(--fg);
-            transition: all 0.2s ease;
-        }
-
-        .icon-btn i {
-            font-size: 1.5rem;
-        }
-
-        /* Font Awesome icon sizing */
-        .icon-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .icon-btn.muted {
-            background-color: var(--accent);
-            color: #ffffff;
-        }
-
-        .icon-btn-end-call {
-            background-color: var(--danger);
-            color: #ffffff;
-        }
-
-        .icon-btn-end-call:hover {
-            background-color: var(--danger-hover);
-        }
-
-        /* --- CARDS, FORMS & MODALS --- */
-        .hero-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 4rem;
-            border-radius: 1rem;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .dialog {
-            background-color: var(--bg);
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            width: 100%;
-            max-width: 500px;
-            animation: slideUpFadeIn 0.3s ease;
-        }
-
-        .user-card,
-        .session-card,
-        .profile-card {
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-
-        .user-card:hover {
-            transform: translateY(-4px);
-            background-color: rgba(255, 255, 255, 0.03);
-            cursor: pointer;
-        }
-
-        html.light-theme .user-card:hover {
-            background-color: #e5e7eb;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="datetime-local"],
-        .form-select {
-            width: 100%;
-            box-sizing: border-box;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            color: var(--fg);
-            font-size: 1rem;
-            transition: all 0.2s ease;
-            appearance: none;
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group input[type="datetime-local"]:focus,
-        .form-select:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
-        }
-
-        .form-slider {
-            width: 100%;
-            accent-color: var(--accent);
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-switch .slider {
-            position: absolute;
-            cursor: pointer;
-            inset: 0;
-            background-color: var(--icon-bg);
-            border-radius: 34px;
-            transition: .4s;
-        }
-
-        .toggle-switch .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            border-radius: 50%;
-            transition: .4s;
-        }
-
-        .toggle-switch input:checked+.slider {
-            background-color: var(--accent);
-        }
-
-        .toggle-switch input:checked+.slider:before {
-            transform: translateX(22px);
-        }
-
-        /* --- UTILITY & LAYOUT --- */
-        .hidden {
-            display: none !important;
-        }
-
-        .muted-text {
-            color: var(--muted-text);
-            font-size: 0.9rem;
-        }
-
-        .flex-between-center {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .grid-responsive {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .video-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .mt-1 {
-            margin-top: 0.25rem;
-        }
-
-        .mt-2 {
-            margin-top: 0.5rem;
-        }
-
-        .mt-3 {
-            margin-top: 0.75rem;
-        }
-
-        .mt-4 {
-            margin-top: 1rem;
-        }
-
-        .mt-6 {
-            margin-top: 1.5rem;
-        }
-
-        .mb-1 {
-            margin-bottom: 0.25rem;
-        }
-
-        .mb-2 {
-            margin-bottom: 0.5rem;
-        }
-
-        .mb-3 {
-            margin-bottom: 0.75rem;
-        }
-
-        .mb-4 {
-            margin-bottom: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <nav>
+            <nav class="main-nav">
                 <h1 id="logo">SkillSwap</h1>
                 <div class="nav-controls">
                     <button id="theme-toggle" class="circular-btn" aria-label="Toggle theme">
@@ -538,10 +29,11 @@
                             class="fa-solid fa-magnifying-glass"></i></button>
                     <ul id="main-nav-list">
                         <div id="nav-pill"></div>
-                        <li><a class="nav-link active" data-page="home-page">Home</a></li>
-                        <li><a class="nav-link" data-page="forum-page">Forum</a></li>
-                        <li><a class="nav-link" data-page="sessions-page">My Sessions</a></li>
-                        <li><a class="nav-link" data-page="profile-page">My Skills</a></li>
+                        <li><a class="nav-link active" data-page="home-page"><i class="fa-solid fa-house"></i> Home</a></li>
+                        <li><a class="nav-link" data-page="forum-page"><i class="fa-solid fa-users"></i> Forum</a></li>
+                        <li><a class="nav-link" data-page="sessions-page"><i class="fa-solid fa-calendar-check"></i> My Sessions</a></li>
+                        <li><a class="nav-link" data-page="profile-page"><i class="fa-solid fa-user-gear"></i> My Skills</a></li>
+                        <li><a class="nav-link" data-page="subscription-page"><i class="fa-solid fa-star"></i> Subscription</a></li>
                     </ul>
                 </div>
             </nav>
@@ -554,11 +46,12 @@
     <template id="home-page-template">
         <section class="page-section text-center">
             <div class="hero-card">
+                <i class="hero-icon fa-solid fa-lightbulb"></i>
                 <h2 class="hero-title">Teach what you know.</h2>
                 <h3 class="hero-subtitle">Learn what you need.</h3>
                 <div class="mt-6" style="display: flex; justify-content: center; gap: 1rem;">
                     <button class="btn" data-page="forum-page">Browse Skills</button>
-                    <button id="home-start-session-btn" class="btn btn-primary">Start a Session</button>
+                    <button id="home-start-session-btn" class="btn btn-primary">Start a Session <i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
         </section>
@@ -620,6 +113,34 @@
                         class="fa-solid fa-phone-slash"></i></button>
                 <button id="settings-btn" class="icon-btn" aria-label="Settings"><i
                         class="fa-solid fa-gear"></i></button>
+            </div>
+        </section>
+    </template>
+
+    <template id="subscription-page-template">
+        <section class="page-section">
+            <div class="page-title-wrapper">
+                <h2 class="page-title">Subscription Plans</h2>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-icon"><i class="fa-solid fa-gem"></i></div>
+                    <h3 class="plan-title">Entry</h3>
+                    <p class="plan-desc">For those just getting started with peer-to-peer learning.</p>
+                    <a href="#" class="btn plan-btn">Choose Plan</a>
+                </div>
+                <div class="pricing-card highlighted-card">
+                    <div class="plan-icon"><i class="fa-solid fa-crown"></i></div>
+                    <h3 class="plan-title">Gold</h3>
+                    <p class="plan-desc">Unlock advanced features and priority support for all your needs.</p>
+                    <a href="#" class="btn plan-btn btn-primary">Choose Plan</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan-icon"><i class="fa-solid fa-star"></i></div>
+                    <h3 class="plan-title">Premium</h3>
+                    <p class="plan-desc">Everything you need to succeed with full unlimited access.</p>
+                    <a href="#" class="btn plan-btn">Choose Plan</a>
+                </div>
             </div>
         </section>
     </template>
@@ -694,7 +215,9 @@
                     const container = document.getElementById('user-list'); if (!container) return;
                     container.innerHTML = usersToRender.map(user => `
                         <div class="user-card" data-user-name="${user.name}">
-                            <h3 class="card-title">${user.name}</h3>
+                            <h3 class="card-title">
+                                <i class="fa-solid fa-user-circle"></i> ${user.name}
+                            </h3>
                             <div class="mt-3">
                                 <p class="label-text">Offering</p>
                                 <p>${user.skillOffered}</p>
@@ -715,7 +238,7 @@
                         <div class="session-card mb-3">
                             <div class="flex-between-center">
                                 <div>
-                                    <p style="font-weight: 500;">${s.skill}</p>
+                                    <p style="font-weight: 500;"><i class="fa-solid fa-calendar"></i> ${s.skill}</p>
                                     <p class="muted-text">with ${s.person}</p>
                                 </div>
                                 <p class="muted-text">${formatDate(s.date)}</p>
@@ -730,27 +253,27 @@
                     displayDiv.innerHTML = `
                         <div id="profile-view">
                             <div class="form-group">
-                                <label class="label-text">I can teach:</label>
+                                <label class="label-text"><i class="fa-solid fa-chalkboard-user"></i> I can teach:</label>
                                 <p class="display-text">${mySkills.offering}</p>
                             </div>
                             <div class="form-group">
-                                <label class="label-text">I want to learn:</label>
+                                <label class="label-text"><i class="fa-solid fa-book-open-reader"></i> I want to learn:</label>
                                 <p class="display-text">${mySkills.wanted}</p>
                             </div>
-                            <button id="edit-profile-btn" class="btn mt-4">Edit Profile</button>
+                            <button id="edit-profile-btn" class="btn mt-4">Edit Profile <i class="fa-solid fa-pen"></i></button>
                         </div>
                         <div id="profile-form" class="hidden">
                             <div class="form-group">
-                                <label class="label-text" for="offering-input">I can teach:</label>
+                                <label class="label-text" for="offering-input"><i class="fa-solid fa-chalkboard-user"></i> I can teach:</label>
                                 <input id="offering-input" type="text" value="${mySkills.offering}">
                             </div>
                             <div class="form-group">
-                                <label class="label-text" for="wanted-input">I want to learn:</label>
+                                <label class="label-text" for="wanted-input"><i class="fa-solid fa-book-open-reader"></i> I want to learn:</label>
                                 <input id="wanted-input" type="text" value="${mySkills.wanted}">
                             </div>
                             <div style="display: flex; gap: 1rem;" class="mt-6">
-                                <button id="save-profile-btn" class="btn btn-primary">Save Changes</button>
-                                <button id="cancel-edit-btn" class="btn">Cancel</button>
+                                <button id="save-profile-btn" class="btn btn-primary">Save Changes <i class="fa-solid fa-check"></i></button>
+                                <button id="cancel-edit-btn" class="btn">Cancel <i class="fa-solid fa-xmark"></i></button>
                             </div>
                         </div>`;
                     const view = displayDiv.querySelector('#profile-view'), form = displayDiv.querySelector('#profile-form');
@@ -790,7 +313,7 @@
                 },
                 showSearchModal() {
                     const modal = this.showModal(`
-                        <h3 class="dialog-title">Search Skills</h3>
+                        <h3 class="dialog-title"><i class="fa-solid fa-magnifying-glass"></i> Search Skills</h3>
                         <div class="form-group">
                             <input id="search-input" type="text" placeholder="e.g., Python, Guitar...">
                         </div>
@@ -799,17 +322,17 @@
                     modal.querySelector('#search-input').addEventListener('keyup', e => {
                         const term = e.target.value.toLowerCase();
                         const results = dummyUsers.filter(u => u.skillOffered.toLowerCase().includes(term));
-                        modal.querySelector('#search-results').innerHTML = results.map(u => `<div class="user-card mb-2" data-user-name="${u.name}">${u.skillOffered} by <strong>${u.name}</strong></div>`).join('');
+                        modal.querySelector('#search-results').innerHTML = results.map(u => `<div class="user-card mb-2" data-user-name="${u.name}"><i class="fa-solid fa-circle-user"></i> ${u.skillOffered} by <strong>${u.name}</strong></div>`).join('');
                         modal.querySelectorAll('.user-card').forEach(card => card.addEventListener('click', e => { this.startVideoCall(e.currentTarget.dataset.userName); modal.remove(); }));
                     });
                 },
                 showAddSessionModal() {
                     const modal = this.showModal(`
-                        <h3 class="dialog-title">Schedule a Session</h3>
+                        <h3 class="dialog-title"><i class="fa-solid fa-calendar-plus"></i> Schedule a Session</h3>
                         <div class="form-group"><label for="session-skill-input" class="label-text">Skill</label><input type="text" id="session-skill-input"></div>
                         <div class="form-group"><label for="session-person-input" class="label-text">With</label><input type="text" id="session-person-input"></div>
                         <div class="form-group"><label for="session-date-input" class="label-text">Date & Time</label><input id="session-date-input" type="datetime-local"></div>
-                        <button id="save-session-btn" class="btn btn-primary mt-4">Schedule</button>
+                        <button id="save-session-btn" class="btn btn-primary mt-4">Schedule <i class="fa-solid fa-check"></i></button>
                         <button class="close-modal-btn hidden"></button>`);
                     modal.querySelector('#save-session-btn').addEventListener('click', () => {
                         const newSession = { id: dummySessions.length + 1, person: modal.querySelector('#session-person-input').value, skill: modal.querySelector('#session-skill-input').value, date: modal.querySelector('#session-date-input').value, status: 'Upcoming' };
@@ -818,7 +341,7 @@
                 },
                 showCallSettingsModal() {
                     this.showModal(`
-                        <h3 class="dialog-title">Call Settings</h3>
+                        <h3 class="dialog-title"><i class="fa-solid fa-gear"></i> Call Settings</h3>
                         <div class="form-group">
                             <label for="camera-select" class="label-text">Camera</label>
                             <select id="camera-select" class="form-select">
@@ -844,7 +367,7 @@
                                 <span class="slider"></span>
                             </label>
                         </div>
-                        <button class="close-modal-btn btn mt-6">Done</button>`);
+                        <button class="close-modal-btn btn mt-6">Done <i class="fa-solid fa-check"></i></button>`);
                 },
                 initTheme() {
                     const savedTheme = localStorage.getItem('theme') || 'dark';
